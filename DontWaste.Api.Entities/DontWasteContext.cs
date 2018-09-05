@@ -14,5 +14,9 @@ namespace DontWaste.Api.Entities
         public DontWasteContext()
         {
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=blog.db");
+        }
     }
 }

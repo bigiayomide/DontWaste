@@ -47,7 +47,7 @@ namespace DontWaste.API
             services.AddDbContext<DontWasteContext>(option => option.UseSqlite("Data Source=DontWaste.db"), ServiceLifetime.Scoped);
             services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddScoped(typeof(IRepositoryService<>), typeof(RepositoryService<>));
+            //services.AddScoped(typeof(IRepositoryService<>), typeof(RepositoryService<>));
             services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
             services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
             services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
