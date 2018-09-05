@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DontWaste.Api.Business.Contracts;
+using DontWaste.Api.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DontWaste.API.Controllers
@@ -10,10 +12,16 @@ namespace DontWaste.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        IBusinessEngine _IbusinessEngine;
+        public ValuesController(IBusinessEngine businessEngine)
+        {
+            _IbusinessEngine = businessEngine;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            _IbusinessEngine.Test();
             return new string[] { "value1", "value2" };
         }
 

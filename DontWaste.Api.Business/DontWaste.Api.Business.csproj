@@ -4,4 +4,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DontWaste.Api.Business.Contracts\DontWaste.Api.Business.Contracts.csproj" />
+    <ProjectReference Include="..\DontWaste.Api.Core.Contracts\DontWaste.Api.Core.Contracts.csproj" />
+    <ProjectReference Include="..\DontWaste.Api.Data.Contracts\DontWaste.Api.Data.Contracts.csproj" />
+    <ProjectReference Include="..\Dontwaste.Api.Data\Dontwaste.Api.Data.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -2,7 +2,8 @@
 
 namespace DontWaste.Api.Business.Contracts
 {
-    public class Class1
+    public interface IBusinessEngine
     {
+        void Test();
     }
 }

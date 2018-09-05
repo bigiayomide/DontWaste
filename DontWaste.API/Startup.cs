@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Dontwaste.Api.Data;
 using Dontwaste.Api.Data.Repositories;
+using DontWaste.Api.Business;
+using DontWaste.Api.Business.Contracts;
 using DontWaste.Api.Core.Contracts;
 using DontWaste.Api.Data.Contracts.IDataRepositories;
 using DontWaste.Api.Entities;
@@ -20,6 +22,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using NSwag.AspNetCore;
+using DontWaste.API.MiddleWare;
+using NJsonSchema;
 
 namespace DontWaste.API
 {
@@ -37,9 +44,18 @@ namespace DontWaste.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddDbContext<DontWasteContext>(option => option.UseSqlite("Data Source=DontWaste.db"), ServiceLifetime.Scoped);
+            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddScoped(typeof(IRepositoryService<>), typeof(RepositoryService<>));
+            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
+            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
+            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
+            services.AddTransient<IBusinessEngine, BusinessEngine>();
+
             services.AddIdentity<IdentityUser, IdentityRole>()
-              .AddEntityFrameworkStores<DontWasteContext>()
-              .AddDefaultTokenProviders();
+                         .AddEntityFrameworkStores<DontWasteContext>()
+                         .AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services
@@ -64,17 +80,14 @@ namespace DontWaste.API
                 });
 
 
-            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
-            services.AddTransient<IUserRepository, UserRepository >();
-            //services.AddTransient<IRepositoryService, RepositoryService>();
-            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
-            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
-            services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/myapp-{Date}.txt");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -85,6 +98,14 @@ namespace DontWaste.API
             }
 
             app.UseHttpsRedirection();
+            //app.UseHangfireServer();
+            //app.UseHangfireDashboard();
+            app.ConfigureExceptionHandler(loggerFactory);
+
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            {
+                settings.GeneratorSettings.DefaultPropertyNameHandling = PropertyNameHandling.CamelCase;
+            });
             app.UseMvc();
         }
     }

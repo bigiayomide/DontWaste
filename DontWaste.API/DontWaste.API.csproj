@@ -11,9 +11,18 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
+    <PackageReference Include="NJsonSchema" Version="9.10.72" />
+    <PackageReference Include="NSwag.AspNetCore" Version="11.19.0" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DontWaste.Api.Business.Contracts\DontWaste.Api.Business.Contracts.csproj" />
+    <ProjectReference Include="..\DontWaste.Api.Business\DontWaste.Api.Business.csproj" />
     <ProjectReference Include="..\DontWaste.Api.Core.Contracts\DontWaste.Api.Core.Contracts.csproj" />
     <ProjectReference Include="..\Dontwaste.Api.Data\Dontwaste.Api.Data.csproj" />
     <ProjectReference Include="..\DontWaste.Api.Entities\DontWaste.Api.Entities.csproj" />
