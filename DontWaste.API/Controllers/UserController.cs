@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dontwaste.Api.Data.ViewModel;
+﻿using Dontwaste.Api.Data.ViewModel;
 using DontWaste.Api.Core.Common.Attributes;
 using DontWaste.Api.Data.Contracts.IDataRepositories;
 using DontWaste.Api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using DontWaste.Api.Business.Contracts;
 
 namespace DontWaste.API.Controllers
 {
@@ -15,12 +13,14 @@ namespace DontWaste.API.Controllers
     public class UserController : Controller
     {
         IUserRepository _UserRepository;
+        IBusinessEngine _BusinessEngine;
         public UserController(IUserRepository UserRepository)
         {
             _UserRepository = UserRepository;
         }
         [Route("GetUsers")]
         [HttpGet]
+        [Authorize(Policy = "Admin")]
         public IActionResult GetUsers()
         {
             return View(_UserRepository.Get());
@@ -28,16 +28,18 @@ namespace DontWaste.API.Controllers
 
         [Route("GetUserByLogin")]
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult GetUserByLogin(LoginModel model)
         {
-            return View(_UserRepository.Get());
+            return View(_BusinessEngine.Login(model));
         }
 
         [Route("CreateOrder")]
         [HttpPost]
         public IActionResult CreateOrder(Order model)
         {
-            return View(_UserRepository.CreateOrder(model));
+            _UserRepository.CreateOrder(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return Ok();
         }
     }
 }

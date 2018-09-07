@@ -97,7 +97,7 @@ namespace DontWaste.Api.Business
                 expires: expires,
                 signingCredentials: creds
             );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return  new  JwtSecurityTokenHandler().WriteToken(token);
         }
 
     }

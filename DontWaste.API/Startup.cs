@@ -27,6 +27,7 @@ using System.Reflection;
 using NSwag.AspNetCore;
 using DontWaste.API.MiddleWare;
 using NJsonSchema;
+using Microsoft.AspNetCore.Http;
 
 namespace DontWaste.API
 {
@@ -54,6 +55,7 @@ namespace DontWaste.API
             services.AddTransient<IBusinessEngine, BusinessEngine>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IDishRepository, DishRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                          .AddEntityFrameworkStores<DontWasteContext>()
