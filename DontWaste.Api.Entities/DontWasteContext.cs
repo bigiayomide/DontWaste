@@ -14,6 +14,10 @@ namespace DontWaste.Api.Entities
         public DontWasteContext()
         {
         }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Dish> Dishes { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=blog.db");

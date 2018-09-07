@@ -11,7 +11,8 @@ namespace DontWaste.Api.Entities
     {
         public AppUser()
         {
-
+            Orders = new List<Order>();
         }
+        public List<Order> Orders { get; set; }
     }
 }

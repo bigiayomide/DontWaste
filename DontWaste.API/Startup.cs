@@ -52,6 +52,8 @@ namespace DontWaste.API
             services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
             services.AddTransient<IDataRepositoryFactory, DataRepositoryFactory>();
             services.AddTransient<IBusinessEngine, BusinessEngine>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IDishRepository, DishRepository>();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                          .AddEntityFrameworkStores<DontWasteContext>()

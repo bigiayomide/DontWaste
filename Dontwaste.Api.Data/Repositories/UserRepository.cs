@@ -39,5 +39,16 @@ namespace Dontwaste.Api.Data.Repositories
                     where e.Id == entity.Id
                     select e).FirstOrDefault();
         }
+
+        public void CreateOrder(Order order, string UserId)
+        {
+            using (DontWasteContext entityContext = new DontWasteContext())
+            {
+                AppUser user = GetEntity(entityContext, UserId);
+                user.Orders.Add(order);
+                entityContext.SaveChanges();
+            }
+        }
+
     }
 }
